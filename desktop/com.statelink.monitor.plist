@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+    StateLink — macOS LaunchAgent for auto-start on login.
+    This file is installed to ~/Library/LaunchAgents/ by setup_autostart.py.
+
+    To manually install:
+      cp this_file ~/Library/LaunchAgents/com.statelink.monitor.plist
+      launchctl load ~/Library/LaunchAgents/com.statelink.monitor.plist
+
+    To uninstall:
+      launchctl unload ~/Library/LaunchAgents/com.statelink.monitor.plist
+      rm ~/Library/LaunchAgents/com.statelink.monitor.plist
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.statelink.monitor</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>SERVER_DIR_PLACEHOLDER/statelink_server.py</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>SERVER_DIR_PLACEHOLDER</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>SERVER_DIR_PLACEHOLDER/statelink_server.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>SERVER_DIR_PLACEHOLDER/statelink_server_error.log</string>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>
