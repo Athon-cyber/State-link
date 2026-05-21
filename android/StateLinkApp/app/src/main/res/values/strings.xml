@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- All user-visible strings used in the app -->
+<resources>
+    <string name="app_name">StateLink</string>
+
+    <!-- Connection status -->
+    <string name="connected">Connected</string>
+    <string name="waiting_pc">Waiting for PC…</string>
+    <string name="refresh">Refresh connection</string>
+
+    <!-- Stat card labels -->
+    <string name="cpu">CPU</string>
+    <string name="memory">Memory</string>
+    <string name="disk">Disk</string>
+    <string name="network">Network</string>
+    <string name="battery">Battery</string>
+    <string name="download">Download</string>
+    <string name="upload">Upload</string>
+
+    <!-- Battery state -->
+    <string name="charging">⚡ Charging</string>
+    <string name="on_battery">🔋 On Battery</string>
+
+    <!-- Theme -->
+    <string name="change_theme">Change Theme</string>
+    <string name="select_theme">Select Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_blue">Tech Blue</string>
+</resources>
