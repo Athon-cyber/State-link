@@ -23,6 +23,9 @@ StateLink is a USB-based PC hardware monitor for Android. An Android phone displ
 StateLink/
 ├── desktop/                        # PC-side monitor server
 │   ├── statelink_server.py         # Python HTTP server + psutil stats collector
+│   ├── setup_autostart.py          # One-click auto-start setup (Win/Mac)
+│   ├── start_server_win.vbs        # Windows silent launcher (no console window)
+│   ├── com.statelink.monitor.plist # macOS LaunchAgent template
 │   └── requirements.txt            # psutil, pyinstaller
 ├── android/StateLinkApp/           # Android app (open in Android Studio)
 │   ├── app/src/main/
@@ -38,12 +41,16 @@ StateLink/
 │   │       ├── drawable/dot_red.xml       # Disconnected indicator
 │   │       └── drawable/ic_launcher_*.xml # App icon
 │   └── build.gradle               # AGP 8.2.0, minSdk 24, targetSdk 34
+├── README.md                       # Project overview + quick start
+├── TUTORIAL.md                     # Zero-basics step-by-step guide
 └── CLAUDE.md
 ```
 
 ## Key Technical Details
 
 - **Communication**: The Python server runs an HTTP server on `0.0.0.0:8765`. It runs `adb reverse tcp:8765 tcp:8765` so the phone's `localhost:8765` maps to the PC's port 8765. The Android app polls `http://localhost:8765/stats` every 1 second via `HttpURLConnection` on a single-thread executor.
+- **Auto-start**: `setup_autostart.py` detects the OS and sets up background-on-login. Windows: VBS silent launcher → Startup folder. macOS: LaunchAgent plist → `~/Library/LaunchAgents/`. Run `setup_autostart.py --remove` to disable. Server logs to `statelink_server.log` when auto-started.
+- **Screen always-on**: Two mechanisms — `FLAG_KEEP_SCREEN_ON` window flag + `SCREEN_BRIGHT_WAKE_LOCK` from PowerManager. Both released in `onDestroy()`.
 - **Screen always-on**: Two mechanisms — `FLAG_KEEP_SCREEN_ON` window flag + `SCREEN_BRIGHT_WAKE_LOCK` from PowerManager. Both released in `onDestroy()`.
 - **Theme system**: 3 themes defined as Material3 styles in `styles.xml`. `ThemeManager` persists the choice to `SharedPreferences`. Switching calls `recreate()` to re-apply the style before `setContentView()`.
 - **Stats JSON schema**: See the `collect_stats_loop()` function in `statelink_server.py`. Battery field is `-1` when unavailable (desktops); the app hides the battery card in that case.
