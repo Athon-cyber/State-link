@@ -205,9 +205,33 @@
 
 ### 5.4 运行安卓APP
 
-1. 在 Android Studio 中，点击顶部工具栏的 **绿色三角形 ▶ 按钮**（Run）
+**如果顶部绿色三角形是灰色的（无法点击），按以下步骤操作：**
+
+首先，确认项目已经加载完成：
+
+1. 看 Android Studio 底部状态栏
+2. 如果有 **进度条** 或显示 **"Gradle sync"** / **"Indexing"** / **"Download"** 字样 → 说明还在下载依赖，**耐心等它走完**（首次可能需要 5-20 分钟，取决于网速）
+3. 等待底部状态栏出现 **"Gradle sync completed"** 绿色对勾
+
+然后，设置运行配置：
+
+1. 点击顶部菜单栏 **"Run"**（运行）
+2. 在下拉菜单中点 **"Run..."**（运行…）
+3. 弹出的窗口中，在搜索框里输入 **"app"**
+4. 选择列表中的 **"app"**（图标是安卓小人）
+5. 点击 **"OK"**
+
+现在，顶部绿色三角形应该变为**可点击的绿色**了：
+
+1. 点击 **绿色三角形 ▶ 按钮**（或者按快捷键 `Ctrl+R` / `Cmd+R`）
 2. 等待编译（首次约1-3分钟），APP会自动安装到手机上并打开
 3. 手机屏幕上会显示 StateLink 的主界面
+
+**如果绿色三角形还是灰色的：**
+
+- 确认顶部工具栏**右侧的设备选择下拉框**里显示了你的手机型号（不是 "No devices"）
+- 如果显示 "No devices" → 回到 [5.1 连接设备](#51-连接设备) 重新检查
+- 如果下拉框显示的是一串字母/数字（如 "Medium Phone API 34"）→ 那是虚拟模拟器，不是你的真实手机。点开下拉框，选择你的真实手机型号
 
 ### 5.5 查看监控数据
 
@@ -315,13 +339,74 @@ pip install psutil
 ```
 安装成功后再重新运行 `statelink_server.py`。
 
-### 问题7：Android Studio 导入项目后报错
+### 问题7：Android Studio 导入项目后报错 / Gradle sync failed
 
-| 报错信息 | 解决方法 |
-|----------|----------|
-| "SDK location not found" | 点击 "OK"，然后在弹出的窗口中点击 "Edit"，选择SDK路径后重试 |
-| "Gradle sync failed" | 点击顶部菜单 File → Sync Project with Gradle Files，等待同步完成 |
-| "Failed to install SDK" | 点击顶部菜单 Tools → SDK Manager → 勾选 Android 14.0 (API 34) → Apply |
+**第一步：查看具体错误**
+
+点击 Android Studio 底部的 **"Build Output"**（构建输出）标签页，找到红色错误信息。
+
+**第二步：根据错误信息对号入座**
+
+| 错误关键词 | 原因 | 解决方法 |
+|-----------|------|----------|
+| `Could not resolve com.android.tools.build:gradle` | 网络不通，无法下载Gradle插件 | 见下方"网络问题专项" |
+| `Could not resolve androidx.appcompat` | 网络不通，无法下载依赖库 | 同上 |
+| `SDK location not found` | 没指定SDK路径 | 点击弹窗中的 "Edit"，选择SDK路径重试 |
+| `Failed to install SDK` / `Android SDK not found` | 缺少Android SDK | 点击菜单 **Tools → SDK Manager →** 勾选 **Android 14.0 (API 34) → Apply** |
+| `Unsupported Java` / `Java 8 is required` | JDK版本不对 | 点击菜单 **File → Project Structure → SDK Location →** 确认JDK路径指向JDK 17（Android Studio自带） |
+| `compileSdkVersion` / `compileSdk 34 not found` | 编译SDK版本未安装 | 同上：SDK Manager → 勾选 Android 14.0 (API 34) → Apply |
+| `Timeout` / `Read timed out` | 下载超时 | 网络慢或防火墙问题，见下方 |
+
+**网络问题专项（中国大陆用户最常见）**
+
+Google 的仓库在国内可能无法直接访问，需要配置国内镜像：
+
+1. 在 Android Studio 中打开项目根目录的 `build.gradle`（注意：是根目录那个，不是 app 里面的）
+2. 把 `repositories` 这段替换为：
+   ```gradle
+   repositories {
+       maven { url 'https://maven.aliyun.com/repository/google' }
+       maven { url 'https://maven.aliyun.com/repository/central' }
+       maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+       google()
+       mavenCentral()
+       gradlePluginPortal()
+   }
+   ```
+3. 同样修改 `settings.gradle` 里的 repositories
+4. 点击顶部菜单 **File → Sync Project with Gradle Files** 重新同步
+
+**代理设置（如果用了梯子/代理）**
+
+1. 点击菜单 **File → Settings**（Mac：**Android Studio → Preferences**）
+2. 搜索 "HTTP Proxy"
+3. 选择 **Manual proxy configuration**
+4. 填入你的代理地址和端口（如 `127.0.0.1:7890`）
+5. 点击 **Apply → OK**
+6. 重新同步
+
+**终极方法：让 Android Studio 自动修复**
+
+1. 点击菜单 **File → Project Structure**
+2. 在 **SDK Location** 标签页确认 SDK 和 JDK 路径
+3. 点击 **OK**，Android Studio 会自动下载缺失的组件
+4. 然后 **File → Sync Project with Gradle Files** 重新同步
+
+### 问题8：顶部绿色三角形（Run按钮）是灰色的，点不了
+
+| 原因 | 解决方法 |
+|------|----------|
+| Gradle 还在同步中 | 看 Android Studio 底部状态栏，如果有进度条就**耐心等待**，首次同步可能需要 5-20 分钟 |
+| 没有配置运行方式 | 点击顶部菜单 **Run** → **Run...** → 搜索框输入 "app" → 选择 "app" → 点 OK |
+| 没有选中手机设备 | 确认顶部工具栏右侧设备下拉框里显示的是你的手机型号，不是 "No devices" |
+| 当前打开的不是项目文件夹 | 确认你打开的是 `android/StateLinkApp` 文件夹，不是上级目录 |
+
+**最直接的解决方法：**
+
+1. 等待底部状态栏所有进度条消失
+2. 点击顶部菜单 **Run → Run...**（运行 → 运行…）
+3. 选择 **app** → 点 OK
+4. 绿色三角形就会变亮，然后点击它运行
 
 ---
 

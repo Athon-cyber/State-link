@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.statelink.app-merged_res-31:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.statelink.app-main-33:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.statelink.app-merged_res-31:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.statelink.app-main-33:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.statelink.app-merged_res-31:/drawable_dot_green.xml.flat",
+        "source": "com.statelink.app-main-33:/drawable/dot_green.xml"
+    },
+    {
+        "merged": "com.statelink.app-merged_res-31:/layout_activity_main.xml.flat",
+        "source": "com.statelink.app-main-33:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.statelink.app-merged_res-31:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.statelink.app-main-33:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.statelink.app-merged_res-31:/drawable_dot_red.xml.flat",
+        "source": "com.statelink.app-main-33:/drawable/dot_red.xml"
+    }
+]

@@ -76,12 +76,4 @@
         <item name="android:windowLightNavigationBar">false</item>
     </style>
 
-    <!-- ═══════════════════════════════════════════════════
-         LEGACY THEME ALIASES (for sdk < 31 compatibility)
-         These map to the same theme IDs used in ThemeManager.
-         ═══════════════════════════════════════════════════ -->
-    <style name="Theme_StateLink_Light" parent="Theme.StateLink.Light" />
-    <style name="Theme_StateLink_Dark"  parent="Theme.StateLink.Dark" />
-    <style name="Theme_StateLink_Blue"  parent="Theme.StateLink.Blue" />
-
 </resources>

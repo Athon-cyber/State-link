@@ -1,0 +1,4 @@
+com.statelink.app.test.app-androidTest-0 /Users/aaathon/code/StateLink/android/StateLinkApp/app/build/generated/res/resValues/androidTest/debug
+com.statelink.app.test.app-mergeDebugAndroidTestResources-1 /Users/aaathon/code/StateLink/android/StateLinkApp/app/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
+com.statelink.app.test.app-mergeDebugAndroidTestResources-2 /Users/aaathon/code/StateLink/android/StateLinkApp/app/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
+com.statelink.app.test.app-merged_res-3 /Users/aaathon/code/StateLink/android/StateLinkApp/app/build/intermediates/merged_res/debugAndroidTest
